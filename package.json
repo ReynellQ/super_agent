@@ -1,0 +1,18 @@
+{
+  "name": "player1",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "player-1": "input='../app/player_1/data.txt' output='../app/player_1/direction.txt' npx tsx index.ts",
+    "player-2": "input='../app/player_2/data.txt' output='../app/player_2/direction.txt' npx tsx index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@mercadoni/elementals": "1.1.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3"
+  }
+}
