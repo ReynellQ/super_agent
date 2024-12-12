@@ -28,16 +28,17 @@ function calculateYCollision(point1: Point, point2: Point, leftWall: boolean): n
 
   const wallX = leftWall ? 0 : 800;
   const timeToCollision = (wallX - point2.x) / vx;
-  // console.log('time to collision', timeToCollision);
 
   let yCollision = point2.y + vy * timeToCollision;
-
-  while (yCollision < 0 || yCollision > gridHeight) {
+  for(let i = 1 ; i < 10 ; i++){
+    if(yCollision < 0 || yCollision > gridHeight){
       if (yCollision < 0) {
-          yCollision = -yCollision; 
+        yCollision = -yCollision; 
       } else if (yCollision > gridHeight) {
           yCollision = 2 * gridHeight - yCollision; 
       }
+    }
+    
   }
 
   return yCollision;
@@ -72,14 +73,11 @@ const isTheBallPointingMe = (points: DataPoint[]) => {
   let points: any[] = [];
   while (true) {
     try{
-      console.log('iteration!')
-      const delta = 5;
       const input = fs.readFileSync(inputFile, { encoding: "utf-8" })
       const [px, py, e, bx, by] = input.split(",").map(s => { return s.trim() });
       const point : DataPoint = { px: Number(px), py: Number(py), e: Number(e), bx: Number(bx), by: Number(by) };
       points.push(point);
       points = points.slice(-50);
-      //console.log(points);
   
       const n = points.length;
       
@@ -89,28 +87,19 @@ const isTheBallPointingMe = (points: DataPoint[]) => {
       } else {
         let direction = 0;
         if(isTheBallPointingMe(points)){
-          // console.log('yes')
-                // Example usage
-          const p1 = { x: 450, y: 300 }; // Starting point
-          const p2 = { x: 600, y: 500 }; // Direction point
-          const targetX = 0; // Target x-coordinate
           if(points.length > 10){
-            const wall = points[n - 1].px < 400
+            const wall = points[n - 1].px < 400;
             const result = calculateYCollision({
-              x: points[n - 2].bx,
-              y: points[n - 2].by,
-            }, 
-            {
-              x: points[n - 1].bx,
-              y: points[n - 1].by,
-            }, 
-            wall);
-            // console.log(`The ball will hit x=${targetX} at:`, result);
+                x: points[n - 2].bx,
+                y: points[n - 2].by,
+              }, 
+              {
+                x: points[n - 1].bx,
+                y: points[n - 1].by,
+              }, 
+              wall
+            );
             if(!Number.isNaN(result)){
-              // console.log({
-              //   result, 
-              //   poisition: points[n - 1].py
-              // })
               if(result - points[n - 1].py < -40){
                 direction = -1;
               }else if(result - points[n - 1].py > 40){
